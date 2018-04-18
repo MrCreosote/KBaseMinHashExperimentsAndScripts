@@ -1,7 +1,9 @@
-# Testing Sourmash against KBase CI RefSeq
+# Testing Sourmash / Mash against KBase CI RefSeq
 
 This is a very Q&D exercise in preparing 1000 KBase CI RefSeq assemblies for
-searching via Sourmash. There's tons of opportunities for speeding this up.
+searching via Sourmash and Mash. There's tons of opportunities for speeding this up.
+
+## Fetching the data set
 
 Summarized the RefSeq workspace with `summarize_ref_assemblies.py`
 
@@ -59,6 +61,8 @@ do
       mv "$(basename "$file")_s" $file;
 done
 ```
+
+## Sketching and searching with Sourmash
 
 ```
 $ date; sourmash compute -k 31 --scaled 1000 -o ../kb_refseq_ci_1000.sigs *; date
@@ -127,3 +131,72 @@ similarity   match
  68.3%       15792_326_2
 Sat Apr 14 17:51:40 PDT 2018
 ```
+
+## Sketching and searching with Mash
+
+Note the -s parameter is the number of hashes per assembly. For Sourmash it's the scaling
+parameter.
+
+```
+$ date; ~/bin/mash/mash-Linux64-v2.0/mash sketch -s 1000 -k 31 -o ../kb_refseq_ci_1000 *; date;
+Wed Apr 18 13:05:55 PDT 2018
+Sketching 15792_1001_1...
+*snip*
+Sketching 15792_998_1...
+Writing to ../kb_refseq_ci_1000.msh...
+Wed Apr 18 13:08:29 PDT 2018
+```
+
+```
+$ date; ~/bin/mash/mash-Linux64-v2.0/mash sketch -s 1000 -k 31 -o ../kb_refseq_ci_1000_15792_446_1 15792_446_1; date;
+Wed Apr 18 13:13:57 PDT 2018
+Sketching 15792_446_1...
+Writing to ../kb_refseq_ci_1000_15792_446_1.msh...
+Wed Apr 18 13:13:57 PDT 2018
+```
+
+```
+$ date; ~/bin/mash/mash-Linux64-v2.0/mash dist kb_refseq_ci_1000_15792_446_1.msh kb_refseq_ci_1000.msh; date
+Wed Apr 18 13:19:34 PDT 2018
+15792_446_1	15792_1001_1	1	1	0/1000
+15792_446_1	15792_1004_1	1	1	0/1000
+*snip*
+15792_446_1	15792_440_1	0.00986267	0	583/1000
+15792_446_1	15792_443_1	0.00871973	0	617/1000
+15792_446_1	15792_446_1	0	0	1000/1000
+15792_446_1	15792_449_1	0.00993274	0	581/1000
+15792_446_1	15792_452_1	0.00938122	0	597/1000
+15792_446_1	15792_455_1	0.00907983	0	606/1000
+15792_446_1	15792_458_1	0.00727582	0	664/1000
+15792_446_1	15792_461_1	0.00707294	0	671/1000
+15792_446_1	15792_46_3	1	1	0/1000
+15792_446_1	15792_464_1	0.010469	0	566/1000
+15792_446_1	15792_467_1	0.00673197	0	683/1000
+15792_446_1	15792_470_1	0.00911301	0	605/1000
+15792_446_1	15792_473_1	0.00730504	0	663/1000
+15792_446_1	15792_476_1	0.00733433	0	662/1000
+15792_446_1	15792_479_1	0.00941509	0	596/1000
+15792_446_1	15792_482_1	0.00944905	0	595/1000
+15792_446_1	15792_485_1	0.00742257	0	659/1000
+15792_446_1	15792_488_1	0.0729295	0	55/1000
+15792_446_1	15792_491_1	0.0102881	0	571/1000
+15792_446_1	15792_49_3	1	1	0/1000
+15792_446_1	15792_494_1	0.00730504	0	663/1000
+15792_446_1	15792_497_1	0.200503	4.61581e-10	1/1000
+*snip*
+15792_446_1	15792_545_1	0.200503	4.66299e-10	1/1000
+15792_446_1	15792_548_1	0.200503	4.56773e-10	1/1000
+15792_446_1	15792_551_1	1	1	0/1000
+*snip*
+15792_446_1	15792_998_1	1	1	0/1000
+Wed Apr 18 13:19:34 PDT 2018
+```
+
+# Summary
+
+Note that Mash uses 1000 hashes per genome, while Sourmash uses scaled hashes.
+
+|Tool     |Sketch time|Index time|Search time|
+|---------|-----------|----------|-----------|
+|Sourmash |7:29       |1:57      |0:46       |
+|Mash     |2:34       |n/a       |< 1s       |
