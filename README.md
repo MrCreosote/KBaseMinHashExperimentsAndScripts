@@ -137,6 +137,7 @@ Sat Apr 14 17:51:40 PDT 2018
 Note the -s parameter is the number of hashes per assembly. For Sourmash it's the scaling
 parameter.
 
+### 1000 CI Refdata sequences
 ```
 $ date; ~/bin/mash/mash-Linux64-v2.0/mash sketch -s 1000 -k 31 -o ../kb_refseq_ci_1000 *; date;
 Wed Apr 18 13:05:55 PDT 2018
@@ -192,11 +193,49 @@ Wed Apr 18 13:19:34 PDT 2018
 Wed Apr 18 13:19:34 PDT 2018
 ```
 
+### All CI Refdata sequences
+```
+date; ~/bin/mash/mash-Linux64-v2.0/mash sketch -s 1000 -k 31 -o ../kb_refseq_ci *; date;
+Fri Apr 20 10:48:24 PDT 2018
+Sketching 15792_100001_1...
+*snip*
+Sketching 15792_99995_1...
+Sketching 15792_99998_1...
+Writing to ../kb_refseq_ci.msh...
+Fri Apr 20 15:49:40 PDT 2018
+```
+
+```
+$ date; ~/bin/mash/mash-Linux64-v2.0/mash dist -d .5 ~/kb_refseq_sourmash/kb_refseq_ci_1000_15792_446_1.msh kb_refseq_ci.msh; date
+Fri Apr 20 16:47:26 PDT 2018
+15792_446_1	15792_115033_1	0.00673197	0	683/1000
+15792_446_1	15792_115039_1	0.0114459	0	540/1000
+15792_446_1	15792_115045_1	0.00733433	0	662/1000
+*snip*
+15792_446_1	15792_440_1	0.00986267	0	583/1000
+15792_446_1	15792_443_1	0.00871973	0	617/1000
+15792_446_1	15792_446_1	0	0	1000/1000
+15792_446_1	15792_449_1	0.00993274	0	581/1000
+15792_446_1	15792_452_1	0.00938122	0	597/1000
+15792_446_1	15792_455_1	0.00907983	0	606/1000
+15792_446_1	15792_458_1	0.00727582	0	664/1000
+15792_446_1	15792_461_1	0.00707294	0	671/1000
+*snip*
+15792_446_1	15792_87308_1	0.200503	4.65234e-10	1/1000
+15792_446_1	15792_87312_1	0.200503	4.70679e-10	1/1000
+15792_446_1	15792_87316_1	0.200503	4.69462e-10	1/1000
+15792_446_1	15792_87321_1	0.200503	4.68378e-10	1/1000
+15792_446_1	15792_87327_1	0.200503	4.67074e-10	1/1000
+Fri Apr 20 16:47:28 PDT 2018
+```
+
 # Summary
 
 Note that Mash uses 1000 hashes per genome, while Sourmash uses scaled hashes.
 
-|Tool     |Sketch time|Index time|Search time|
-|---------|-----------|----------|-----------|
-|Sourmash |7:29       |1:57      |0:46       |
-|Mash     |2:34       |n/a       |< 1s       |
+|Tool     |Sequences|Sketch time|Index time|Search time|
+|---------|---------|-----------|----------|-----------|
+|Sourmash |1000     |7:29       |1:57      |0:46       |
+|Mash     |1000     |2:34       |n/a       |< 1s       |
+|Sourmash |43892    |           |          |           |
+|Mash     |43892    |5:01:16    |n/a       |2s         |
