@@ -64,6 +64,13 @@ done
 
 ## Sketching and searching with Sourmash
 
+Note that all the sequences were capitalized prior to sketching as Sourmash
+ignores lower case signatures, and all the bacterial isolates were lower
+cased. However, the euks were capitalized as well which is probably not right.
+The sequences should be re-sketched after fixing the euks.
+
+### 1000 CI Refdata sequences
+
 ```
 $ date; sourmash compute -k 31 --scaled 1000 -o ../kb_refseq_ci_1000.sigs *; date
 Sat Apr 14 14:50:08 PDT 2018
@@ -131,6 +138,18 @@ similarity   match
  68.3%       15792_326_2
 Sat Apr 14 17:51:40 PDT 2018
 ```
+
+### All CI Refdata sequences
+
+date; sourmash compute -k 31 --scaled 1000 -o ../kb_refseq_ci.sigs *; date
+Sat Apr 21 17:01:39 PDT 2018
+setting num_hashes to 0 because --scaled is set
+computing signatures for files: 15792_100001_1, 15792_
+
+... reading sequences from 15792_99998_1
+calculated 1 signatures for 24 sequences in 15792_99998_1
+saved 43892 signature(s). Note: signature license is CC0.
+Sun Apr 22 07:52:10 PDT 2018
 
 ## Sketching and searching with Mash
 
@@ -237,5 +256,5 @@ Note that Mash uses 1000 hashes per genome, while Sourmash uses scaled hashes.
 |---------|---------|-----------|----------|-----------|
 |Sourmash |1000     |7:29       |1:57      |0:46       |
 |Mash     |1000     |2:34       |n/a       |< 1s       |
-|Sourmash |43892    |           |          |           |
+|Sourmash |43892    |14:50:31   |          |           |
 |Mash     |43892    |5:01:16    |n/a       |2s         |
