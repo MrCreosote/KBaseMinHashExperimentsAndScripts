@@ -141,6 +141,7 @@ Sat Apr 14 17:51:40 PDT 2018
 
 ### All CI Refdata sequences
 
+```
 date; sourmash compute -k 31 --scaled 1000 -o ../kb_refseq_ci.sigs *; date
 Sat Apr 21 17:01:39 PDT 2018
 setting num_hashes to 0 because --scaled is set
@@ -150,6 +151,18 @@ computing signatures for files: 15792_100001_1, 15792_
 calculated 1 signatures for 24 sequences in 15792_99998_1
 saved 43892 signature(s). Note: signature license is CC0.
 Sun Apr 22 07:52:10 PDT 2018
+```
+
+```
+date; sourmash index -k 31 kb_refseq_ci ~/kb_refseq_sourmash/kb_refseq_ci.sigs; date
+Sun Apr 22 18:08:16 PDT 2018
+loading 1 files into SBT
+...sig loading 43,891
+loaded 43892 sigs; saving SBT under "kb_refseq_ci"
+
+Finished saving nodes, now saving SBT json file.
+Mon Apr 23 01:37:44 PDT 2018
+```
 
 ## Sketching and searching with Mash
 
@@ -256,5 +269,5 @@ Note that Mash uses 1000 hashes per genome, while Sourmash uses scaled hashes.
 |---------|---------|-----------|----------|-----------|
 |Sourmash |1000     |7:29       |1:57      |0:46       |
 |Mash     |1000     |2:34       |n/a       |< 1s       |
-|Sourmash |43892    |14:50:31   |          |           |
+|Sourmash |43892    |14:50:31   |7:29:28   |           |
 |Mash     |43892    |5:01:16    |n/a       |2s         |
