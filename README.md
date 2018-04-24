@@ -3,6 +3,9 @@
 This is a very Q&D exercise in preparing KBase CI RefSeq assemblies for
 searching via Sourmash and Mash. There's tons of opportunities for speeding this up.
 
+Test bed is a laptop with 32GB memory, 7500rpm disks, and a Intel i7-3840QM quad core hyperthreaded
+processor at 2.8GHz.
+
 ## Fetching the data set
 
 Summarized the RefSeq workspace with `summarize_ref_assemblies.py`
