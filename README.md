@@ -4,7 +4,8 @@ This is a very Q&D exercise in preparing KBase CI RefSeq assemblies for
 searching via Sourmash and Mash. There's tons of opportunities for speeding this up.
 
 Test bed is a laptop with 32GB memory, 7500rpm disks, and a Intel i7-3840QM quad core hyperthreaded
-processor at 2.8GHz.
+processor at 2.8GHz with Ubuntu 14.04 running in a VirtualBox VM with 26GB memory and 4 virtual
+CPUs.
 
 ## Fetching the data set
 
