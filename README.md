@@ -278,6 +278,27 @@ Fri Apr 20 16:47:26 PDT 2018
 Fri Apr 20 16:47:28 PDT 2018
 ```
 
+### Merging a single sketch into a sketch DB
+
+Note that Mash does not support in-place updates - a new file is created.
+
+```
+$ date; ~/bin/mash/mash-Linux64-v2.0/mash paste mash_paste_test kb_refseq_ci.msh ~/kb_refseq_sourmash/prod/kb_refseq_prod_19217_356482_1.msh; date
+Tue Apr 24 10:53:54 PDT 2018
+Writing mash_paste_test.msh...
+Tue Apr 24 10:53:57 PDT 2018
+```
+
+```
+$ ls -lh
+total 792M
+drwxrwxr-x 2 crusherofheads crusherofheads 1.6M Apr 20 21:01 kb_refseq_ci
+-rw-r--r-- 1 crusherofheads crusherofheads 340M Apr 20 15:49 kb_refseq_ci.msh
+-rw-r--r-- 1 crusherofheads crusherofheads 101M Apr 20 15:49 kb_refseq_ci.msh.gz
+-rw-rw-r-- 1 crusherofheads crusherofheads  11M Apr 23 01:37 kb_refseq_ci.sbt.json
+-rw-r--r-- 1 crusherofheads crusherofheads 340M Apr 24 10:53 mash_paste_test.msh
+```
+
 # Summary
 
 Note that Mash uses 1000 hashes per genome, while Sourmash uses scaled hashes.
@@ -292,3 +313,5 @@ Note that Mash uses 1000 hashes per genome, while Sourmash uses scaled hashes.
 * It seems searching with an SBT is [broken](https://github.com/dib-lab/sourmash/issues/454) in
 the current release, 2.0.0a4, and produces no results in 1:22:17. Searching directly against the
 sketches does produce the expected results.
+
+It takes Mash 3s to add a single sequence to a file containing 43892 sequences.
