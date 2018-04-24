@@ -1,6 +1,6 @@
 # Testing Sourmash / Mash against KBase CI RefSeq
 
-This is a very Q&D exercise in preparing 1000 KBase CI RefSeq assemblies for
+This is a very Q&D exercise in preparing KBase CI RefSeq assemblies for
 searching via Sourmash and Mash. There's tons of opportunities for speeding this up.
 
 ## Fetching the data set
@@ -164,6 +164,23 @@ Finished saving nodes, now saving SBT json file.
 Mon Apr 23 01:37:44 PDT 2018
 ```
 
+```
+$ date; sourmash search ~/kb_refseq_sourmash/kb_refseq_ci_1000_15792_446_1.sig ~/kb_refseq_sourmash/kb_refseq_ci.sigs; date
+Mon Apr 23 14:35:05 PDT 2018
+select query k=31 automatically.
+loaded query: 15792_446_1... (k=31, DNA)
+...sig loading 43,891
+loaded 43892 signatures from /home/crusherofheads/kb_refseq_sourmash/kb_refseq_cloaded 43892 signatures.
+
+272 matches; showing first 3:
+similarity   match
+----------   -----
+100.0%       15792_446_1
+ 86.4%       15792_431_1
+ 68.3%       15792_326_2
+Mon Apr 23 21:27:08 PDT 2018
+```
+
 ## Sketching and searching with Mash
 
 Note the -s parameter is the number of hashes per assembly. For Sourmash it's the scaling
@@ -265,9 +282,13 @@ Fri Apr 20 16:47:28 PDT 2018
 
 Note that Mash uses 1000 hashes per genome, while Sourmash uses scaled hashes.
 
-|Tool     |Sequences|Sketch time|Index time|Search time|
-|---------|---------|-----------|----------|-----------|
-|Sourmash |1000     |7:29       |1:57      |0:46       |
-|Mash     |1000     |2:34       |n/a       |< 1s       |
-|Sourmash |43892    |14:50:31   |7:29:28   |           |
-|Mash     |43892    |5:01:16    |n/a       |2s         |
+|Tool     |Sequences|Sketch time|Index time|Search time       |
+|---------|---------|-----------|----------|------------------|
+|Sourmash |1000     |7:29       |1:57      |0:46 (vs SBT)     |
+|Mash     |1000     |2:34       |n/a       |< 1s              |
+|Sourmash |43892    |14:50:31   |7:29:28   |6:52:03 (w/o SBT*)|
+|Mash     |43892    |5:01:16    |n/a       |2s                |
+
+* It seems searching with an SBT is [broken](https://github.com/dib-lab/sourmash/issues/454) in
+the current release, 2.0.0a4, and produces no results in 1:22:17. Searching directly against the
+sketches does produce the expected results.
