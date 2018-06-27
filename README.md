@@ -1,7 +1,7 @@
-# Testing Sourmash / Mash against KBase CI RefSeq
+# Testing homology algorithms against KBase CI RefSeq
 
 This is a very Q&D exercise in preparing KBase CI RefSeq assemblies for
-searching via Sourmash and Mash. There's tons of opportunities for speeding this up.
+searching via LAST, Sourmash, and Mash. There's tons of opportunities for speeding this up.
 
 Test bed is a laptop with 32GB memory, 7500rpm disks, and a Intel i7-3840QM quad core hyperthreaded
 processor at 2.8GHz with Ubuntu 14.04 running in a VirtualBox VM with 26GB memory and 4 virtual
@@ -303,16 +303,42 @@ drwxrwxr-x 2 crusherofheads crusherofheads 1.6M Apr 20 21:01 kb_refseq_ci
 -rw-r--r-- 1 crusherofheads crusherofheads 340M Apr 24 10:53 mash_paste_test.msh
 ```
 
-# Summary
+## Creating a searching a database with LAST
+
+### 1000 CI Refdata sequences
+
+```
+$ ~/bin/last/last-942/src/lastdb -V
+lastdb 942
+date; ~/bin/last/last-942/src/lastdb -cR01 kb_rs_ci_1000 ../kb_refseq_ci_1000/*; date
+Tue Jun 26 20:29:51 PDT 2018
+Tue Jun 26 21:55:22 PDT 2018
+
+~/kb_refseq_sourmash/LAST$ du -hs .
+11G	.
+```
+
+## Summary
+
+### Data sizes
+
+Calculated with `du -h [foldername]`
+
+CI 1000 sequences: 2.0GB
+
+CI 43892 sequences: 214GB
+
+### Results
 
 Note that Mash uses 1000 hashes per genome, while Sourmash uses scaled hashes.
 
-|Tool     |Sequences|Sketch time|Index time|Search time       |
-|---------|---------|-----------|----------|------------------|
-|Sourmash |1000     |7:29       |1:57      |0:46 (vs SBT)     |
-|Mash     |1000     |2:34       |n/a       |< 1s              |
-|Sourmash |43892    |14:50:31   |7:29:28   |6:52:03 (w/o SBT*)|
-|Mash     |43892    |5:01:16    |n/a       |2s                |
+|Tool     |Sequences|DB time    |DB size|Index time|Search time       |
+|---------|---------|-----------|-------|----------|------------------|
+|Sourmash |1000     |7:29       |       |1:57      |0:46 (vs SBT)     |
+|Mash     |1000     |2:34       |7.8M   |n/a       |< 1s              |
+|LAST     |1000     |1:25:31    |11G    |n/a       |TBD               |
+|Sourmash |43892    |14:50:31   |       |7:29:28   |6:52:03 (w/o SBT*)|
+|Mash     |43892    |5:01:16    |340M   |n/a       |2s                |
 
 * It seems searching with an SBT is [broken](https://github.com/dib-lab/sourmash/issues/454) in
 the current release, 2.0.0a4, and produces no results in 1:22:17. Searching directly against the
