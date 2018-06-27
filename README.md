@@ -316,6 +316,24 @@ Tue Jun 26 21:55:22 PDT 2018
 
 ~/kb_refseq_sourmash/LAST$ du -hs .
 11G	.
+
+~/kb_refseq_sourmash/kb_refseq_ci_1000$ tail -n +2 15792_1001_1 | head -c 1000 > ../LAST/15792_1001_1_1st1000char
+~/kb_refseq_sourmash/LAST$ echo "> some seq" > 15792_1001_1_1st1000char.fa
+~/kb_refseq_sourmash/LAST$ cat 15792_1001_1_1st1000char >> 15792_1001_1_1st1000char.fa 
+
+~/kb_refseq_sourmash/LAST$ date; ~/bin/last/last-942/src/lastal kb_rs_ci_1000 15792_1001_1_1st1000char.fa > out.maf; date
+Wed Jun 27 11:47:09 PDT 2018
+Wed Jun 27 11:47:09 PDT 2018
+
+~/kb_refseq_sourmash/kb_refseq_ci_1000$ tail -c 1000 15792_224_2 > ../LAST/15792_224_2_last1000char
+~/kb_refseq_sourmash/LAST$ echo "> some seq2" > 15792_224_2_last1000char.fa
+~/kb_refseq_sourmash/LAST$ cat 15792_224_2_last1000char >> 15792_224_2_last1000char.fa
+
+~/kb_refseq_sourmash/LAST$ date; ~/bin/last/last-942/src/lastal kb_rs_ci_1000 15792_224_2_last1000char.fa > out.maf; date
+Wed Jun 27 11:58:37 PDT 2018
+Wed Jun 27 11:58:37 PDT 2018
+
+
 ```
 
 ## Summary
@@ -336,7 +354,7 @@ Note that Mash uses 1000 hashes per genome, while Sourmash uses scaled hashes.
 |---------|---------|-----------|-------|----------|------------------|
 |Sourmash |1000     |7:29       |       |1:57      |0:46 (vs SBT)     |
 |Mash     |1000     |2:34       |7.8M   |n/a       |< 1s              |
-|LAST     |1000     |1:25:31    |11G    |n/a       |TBD               |
+|LAST     |1000     |1:25:31    |11G    |n/a       |< 1s              |
 |Sourmash |43892    |14:50:31   |       |7:29:28   |6:52:03 (w/o SBT*)|
 |Mash     |43892    |5:01:16    |340M   |n/a       |2s                |
 
